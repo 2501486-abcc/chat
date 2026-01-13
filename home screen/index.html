@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <nav class="sidebar collapsed" id="sidebar">
+    <button class="toggle-btn" id="toggle-btn" aria-label="Toggle Sidebar" aria-expanded="false">
+      <span class="icon"><i class="fa-solid fa-bars"></i></span>
+      <span class="text" data-i18n="menu">Menu</span>
+    </button>
+    <ul class="nav">
+      <li><span class="icon"><i class="fa-solid fa-house"></i></span> <span class="text" data-i18n="nav_home">Home</span></li>
+      <li>
+        <a class="nav-link" href="../sms/index.html">
+          <span class="icon"><i class="fa-solid fa-comment-dots"></i></span>
+          <span class="text" data-i18n="nav_messaging">Messaging</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="../simulation/index.html">
+          <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
+          <span class="text" data-i18n="nav_connection">Connection</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">
+        <span class="icon" aria-hidden="true">🇺🇸</span>
+        <span class="text" data-i18n="lang_english">English</span>
+      </button>
+      <button class="lang-btn" type="button" data-lang="ja" aria-pressed="false">
+        <span class="icon" aria-hidden="true">🇯🇵</span>
+        <span class="text" data-i18n="lang_japanese">日本語</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+    <header class="topbar">
+      <span class="status connected" data-i18n="connected">● Connected</span>
+    </header>
+
+    <div class="cards">
+      <div class="card">
+        <h3 data-i18n="card_connection_summary">Connection Summary</h3>
+        <p><span data-i18n="label_latency">Latency</span>: <span id="homeLatency">—</span></p>
+        <p><span data-i18n="label_packet_loss">Packet Loss</span>: <span id="homeLoss">—</span></p>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="card_last_test">Last Test</h3>
+        <p><span data-i18n="label_status">Status</span>: <span id="homeStatus">—</span></p>
+        <p><span data-i18n="label_avg_rtt">Avg RTT</span>: <span id="homeAvgRtt">—</span></p>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="card_quick_actions">Quick Actions</h3>
+        <button id="runTestBtn" type="button" data-i18n="btn_run_test">Run Test</button>
+        <button id="openMessagingBtn" type="button" data-i18n="btn_open_messaging">Open Messaging</button>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="card_latency_trend">Latency Trend</h3>
+        <div class="graph-placeholder" id="homeTrend">
+          <canvas id="homeGraph" aria-label="Latency trend"></canvas>
+          <div class="trend-label" id="homeTrendLabel" data-i18n="graph_preview">Graph Preview</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

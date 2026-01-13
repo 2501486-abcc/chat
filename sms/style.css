@@ -1,0 +1,486 @@
+/* Home Screen palette (copied) */
+:root {
+  --bg-main: #F7EFEA;
+  --bg-card: #EFE3DA;
+  --brown-main: #6B4F3F;
+  --brown-dark: #3E2A1F;
+  --pink-accent: #D9A5B3;
+  --pink-hover: #C98FA0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* 全体 */
+body {
+  background-color: var(--bg-main);
+  margin: 0;
+  display: flex;
+}
+
+/* Sidebar (copied from Home Screen) */
+.sidebar {
+  width: 220px;
+  background: var(--brown-main);
+  color: white;
+  height: 100vh;
+  padding: 10px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  will-change: width;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.text {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out, max-width 0.3s ease;
+  display: inline-block;
+  max-width: 150px;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .text {
+  opacity: 0;
+  pointer-events: none;
+  max-width: 0;
+}
+
+.icon {
+  margin-right: 10px;
+  transition: margin-right 0.3s ease;
+  /* Ensure icon has fixed width so it doesn't shift */
+  min-width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon i {
+  vertical-align: middle;
+}
+
+.sidebar.collapsed .icon {
+  margin-right: 0;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  /* Add transition for padding if we were changing it, but we aren't anymore */
+  border-radius: 12px;
+  transition: background 0.2s ease, transform 0.12s ease;
+}
+
+.toggle-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.toggle-btn:active {
+  transform: scale(0.99);
+}
+
+.toggle-btn:focus-visible {
+  outline: 2px solid var(--pink-accent);
+  outline-offset: 2px;
+}
+
+.nav {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.lang-switch {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.sidebar:not(.collapsed) .lang-btn:hover {
+  transform: translateX(2px);
+}
+
+.lang-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.lang-btn[aria-pressed="true"] {
+  background: var(--pink-accent);
+  color: var(--brown-dark);
+}
+
+.sidebar.collapsed .lang-btn {
+  justify-content: center;
+}
+
+.nav li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.sidebar:not(.collapsed) .nav li:hover {
+  transform: translateX(2px);
+}
+
+.sidebar.collapsed .nav li {
+  justify-content: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav li:hover,
+.logout:hover {
+  background: var(--pink-accent);
+  color: var(--brown-dark);
+}
+
+.nav li:hover .nav-link {
+  color: inherit;
+}
+
+/* Menu icon hover animation */
+.toggle-btn .icon i,
+.nav li .icon i,
+.logout .icon i {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+@keyframes menu-icon-pop {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1.15); }
+}
+
+.toggle-btn:hover .icon i,
+.toggle-btn:focus-visible .icon i,
+.nav li:hover .icon i,
+.nav li:focus-visible .icon i,
+.logout:hover .icon i,
+.logout:focus-visible .icon i {
+  animation: menu-icon-pop 220ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle-btn .icon i,
+  .nav li .icon i,
+  .logout .icon i {
+    transition: none;
+  }
+
+  .toggle-btn:hover .icon i,
+  .toggle-btn:focus-visible .icon i,
+  .nav li:hover .icon i,
+  .nav li:focus-visible .icon i,
+  .logout:hover .icon i,
+  .logout:focus-visible .icon i {
+    animation: none;
+    transform: scale(1.1);
+  }
+}
+
+.logout {
+  position: absolute;
+  bottom: 20px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 20px); /* Account for sidebar padding */
+  border-radius: 10px;
+}
+
+/* Main (same as Home Screen) */
+.main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+}
+
+/* チャット全体を囲む箱 */
+.chat-container {
+  background-color: var(--bg-card);
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  border: 1px solid rgba(62, 42, 31, 0.12);
+
+  /* Limit expansion like messaging apps; messages scroll inside */
+  max-height: min(70vh, 680px, calc(100vh - 40px));
+  overflow: hidden;
+}
+
+.chat-timer {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(62, 42, 31, 0.75);
+  min-height: 16px;
+}
+
+/* タイトル */
+.chat-container h2 {
+  margin: 0 0 4px 0;
+  text-align: center;
+}
+
+/* 説明文 */
+.chat-container p {
+  margin: 0 0 12px 0;
+  font-size: 0.9em;
+  color: rgba(62, 42, 31, 0.75);
+  text-align: center;
+}
+
+.chat-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 0 auto 10px auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(62, 42, 31, 0.14);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--brown-dark);
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.chat-status::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(107, 79, 63, 0.4);
+  box-shadow: 0 0 0 3px rgba(217, 165, 179, 0.2);
+}
+
+.chat-status[data-state="connected"]::before {
+  background: rgba(0, 150, 90, 0.9);
+  box-shadow: 0 0 0 3px rgba(0, 150, 90, 0.18);
+}
+
+.chat-status[data-state="waiting"]::before {
+  background: rgba(217, 165, 179, 0.95);
+  box-shadow: 0 0 0 3px rgba(217, 165, 179, 0.25);
+}
+
+.chat-status[data-state="disconnected"]::before {
+  background: rgba(200, 70, 70, 0.9);
+  box-shadow: 0 0 0 3px rgba(200, 70, 70, 0.18);
+}
+
+/* メッセージ表示欄 */
+#log {
+  list-style: none;
+  padding: 8px;
+  margin: 0 0 10px 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid rgba(62, 42, 31, 0.18);
+  border-radius: 10px;
+  background-color: rgba(247, 239, 234, 0.65);
+
+  /* Bubble layout like popular chat apps */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-behavior: smooth;
+}
+
+/* Message bubble base */
+#log li.message {
+  padding: 10px 12px;
+  max-width: 78%;
+  border-radius: 16px;
+  font-size: 0.95em;
+  line-height: 1.35;
+  word-break: break-word;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+/* Sent (you) — right aligned */
+#log li.message.self {
+  align-self: flex-end;
+  background: var(--pink-accent);
+  color: var(--brown-dark);
+  border: 1px solid rgba(62, 42, 31, 0.12);
+}
+
+/* Received (other) — left aligned */
+#log li.message.other {
+  align-self: flex-start;
+  background: #ffffff;
+  color: var(--brown-dark);
+  border: 1px solid rgba(62, 42, 31, 0.10);
+}
+
+/* System notices (centered, neutral) */
+#log li.message.system {
+  align-self: center;
+  max-width: 92%;
+  background: transparent;
+  border: none;
+  color: rgba(62, 42, 31, 0.7);
+  box-shadow: none;
+  font-size: 0.85em;
+  padding: 4px 10px;
+}
+
+/* 入力エリア */
+.input-area {
+  display: flex;
+  gap: 6px;
+}
+
+/* テキスト入力 */
+#msg {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid rgba(62, 42, 31, 0.18);
+  border-radius: 10px;
+  font-size: 0.9em;
+  background: #fff;
+}
+
+#msg:focus-visible {
+  outline: 2px solid var(--pink-accent);
+  outline-offset: 2px;
+}
+
+/* 送信ボタン */
+button {
+  padding: 6px 12px;
+  background-color: var(--pink-accent);
+  color: var(--brown-dark);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+
+button:hover {
+  background-color: var(--pink-hover);
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+.btn {
+  background-color: var(--pink-accent);
+  color: var(--brown-dark);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.85);
+  color: var(--brown-dark);
+  border: 1px solid rgba(62, 42, 31, 0.18);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(62, 42, 31, 0.35);
+  z-index: 50;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-card {
+  width: min(460px, 92vw);
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(62, 42, 31, 0.16);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+}
+
+.modal-card h3 {
+  margin: 0 0 6px 0;
+  color: var(--brown-dark);
+}
+
+.modal-card .muted {
+  margin: 0 0 14px 0;
+  color: rgba(62, 42, 31, 0.75);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Legacy selectors kept for compatibility (now handled by #log li.message...) */

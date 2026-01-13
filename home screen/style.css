@@ -1,0 +1,406 @@
+:root {
+  --bg-main: #F7EFEA;
+  --bg-card: #EFE3DA;
+  --brown-main: #6B4F3F;
+  --brown-dark: #3E2A1F;
+  --pink-accent: #D9A5B3;
+  --pink-hover: #C98FA0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-main);
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: var(--brown-main);
+  color: white;
+  height: 100vh;
+  padding: 10px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  will-change: width;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.text {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out, max-width 0.3s ease;
+  display: inline-block;
+  max-width: 150px;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .text {
+  opacity: 0;
+  pointer-events: none;
+  max-width: 0;
+}
+
+/* Removed abrupt padding/alignment changes for smoother animation */
+
+.icon {
+  margin-right: 10px;
+  transition: margin-right 0.3s ease;
+  /* Ensure icon has fixed width so it doesn't shift */
+  min-width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon i {
+  vertical-align: middle;
+}
+
+.sidebar.collapsed .icon {
+  margin-right: 0;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  /* Add transition for padding if we were changing it, but we aren't anymore */
+  border-radius: 12px;
+  transition: background 0.2s ease, transform 0.12s ease;
+}
+
+.toggle-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.toggle-btn:active {
+  transform: scale(0.99);
+}
+
+.toggle-btn:focus-visible {
+  outline: 2px solid var(--pink-accent);
+  outline-offset: 2px;
+}
+
+/* Removed .sidebar.collapsed .toggle-btn override */
+
+.nav {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.lang-switch {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.sidebar:not(.collapsed) .lang-btn:hover {
+  transform: translateX(2px);
+}
+
+.lang-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.lang-btn[aria-pressed="true"] {
+  background: var(--pink-accent);
+  color: var(--brown-dark);
+}
+
+.sidebar.collapsed .lang-btn {
+  justify-content: center;
+}
+
+.nav li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.sidebar:not(.collapsed) .nav li:hover {
+  transform: translateX(2px);
+}
+
+.sidebar.collapsed .nav li {
+  justify-content: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav li:hover,
+.logout:hover {
+  background: var(--pink-accent);
+  color: var(--brown-dark);
+}
+
+.nav li:hover .nav-link {
+  color: inherit;
+}
+
+/* Menu icon hover animation */
+.toggle-btn .icon i,
+.nav li .icon i,
+.logout .icon i {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+@keyframes menu-icon-pop {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1.15); }
+}
+
+.toggle-btn:hover .icon i,
+.toggle-btn:focus-visible .icon i,
+.nav li:hover .icon i,
+.nav li:focus-visible .icon i,
+.logout:hover .icon i,
+.logout:focus-visible .icon i {
+  animation: menu-icon-pop 220ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle-btn .icon i,
+  .nav li .icon i,
+  .logout .icon i {
+    transition: none;
+  }
+
+  .toggle-btn:hover .icon i,
+  .toggle-btn:focus-visible .icon i,
+  .nav li:hover .icon i,
+  .nav li:focus-visible .icon i,
+  .logout:hover .icon i,
+  .logout:focus-visible .icon i {
+    animation: none;
+    transform: scale(1.1);
+  }
+}
+
+.logout {
+  position: absolute;
+  bottom: 20px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 20px); /* Account for sidebar padding */
+  border-radius: 10px;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+.topbar {
+  margin-bottom: 20px;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.connected {
+  color: #4CAF50;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  }
+
+  .main {
+    margin-left: 60px; /* Offset for the fixed collapsed sidebar */
+    padding: 15px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .chatbot-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+.card {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--brown-dark);
+}
+
+.card button {
+  display: block;
+  margin-top: 10px;
+  background: var(--pink-accent);
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.card button:hover {
+  background: var(--pink-hover);
+}
+
+.graph-placeholder {
+  height: 100px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(62, 42, 31, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+  position: relative;
+}
+
+#homeGraph {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.trend-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(62, 42, 31, 0.65);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* Chatbot Button */
+.chatbot-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: white;
+  color: white;
+  border: none;
+  padding: 0; /* Remove padding for image */
+  cursor: grab;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  /* Only animate background/transform when NOT dragging (handled by JS class) */
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  user-select: none;
+  overflow: hidden; /* Clip the image to the circle */
+
+  /* Keep movement + hover scale composable */
+  --cb-x: 0px;
+  --cb-y: 0px;
+  --cb-scale: 1;
+  transform: translate3d(var(--cb-x), var(--cb-y), 0) scale(var(--cb-scale));
+  will-change: transform;
+  touch-action: none;
+}
+
+.chatbot-btn.smooth {
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+}
+
+.chatbot-btn img,
+.chatbot-btn dotlottie-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Prevent dragging interfering with button dragging */
+  transform: scale(2); /* Size up the animation */
+}
+
+.chatbot-btn:hover {
+  --cb-scale: 1.1;
+  background: #f0f0f0;
+}
+
+.chatbot-btn:active {
+  cursor: grabbing;
+}

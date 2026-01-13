@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Simulation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="layout-cards">
+
+  <!-- Sidebar (same structure as Home) -->
+  <nav class="sidebar collapsed" id="sidebar">
+    <button class="toggle-btn" id="toggle-btn" aria-label="Toggle Sidebar" aria-expanded="false">
+      <span class="icon"><i class="fa-solid fa-bars"></i></span>
+      <span class="text" data-i18n="menu">Menu</span>
+    </button>
+    <ul class="nav">
+      <li>
+        <a class="nav-link" href="../home screen/index.html">
+          <span class="icon"><i class="fa-solid fa-house"></i></span>
+          <span class="text" data-i18n="nav_home">Home</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="../sms/index.html">
+          <span class="icon"><i class="fa-solid fa-comment-dots"></i></span>
+          <span class="text" data-i18n="nav_messaging">Messaging</span>
+        </a>
+      </li>
+      <li><span class="icon"><i class="fa-solid fa-chart-line"></i></span> <span class="text" data-i18n="nav_connection">Connection</span></li>
+    </ul>
+
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">
+        <span class="icon" aria-hidden="true">🇺🇸</span>
+        <span class="text" data-i18n="lang_english">English</span>
+      </button>
+      <button class="lang-btn" type="button" data-lang="ja" aria-pressed="false">
+        <span class="icon" aria-hidden="true">🇯🇵</span>
+        <span class="text" data-i18n="lang_japanese">日本語</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="status-row">
+        <span id="connDot" class="status-dot" aria-hidden="true">●</span>
+        <span id="connText" class="status-text" data-i18n="conn_checking">Checking…</span>
+      </div>
+
+      <div class="controls" aria-label="Controls">
+        <button id="startBtn" class="btn" data-i18n="start_test">Start Test</button>
+        <button id="stopBtn" class="btn" disabled data-i18n="stop">Stop</button>
+      </div>
+    </header>
+
+    <section id="cards" class="cards">
+      <div class="card">
+        <h3 data-i18n="live_status">Live Status</h3>
+        <p id="hint" class="muted" data-i18n="hint_ready">Click “Start Test” to begin measuring fetch latency to a local endpoint.</p>
+        <p id="error" class="error" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="card_connection_summary">Connection Summary</h3>
+        <div class="kv">
+          <div class="k" data-i18n="label_status">Status</div>
+          <div id="statusLabel" class="v">—</div>
+        </div>
+        <div class="kv">
+          <div class="k" data-i18n="label_last_ping">Last ping</div>
+          <div id="lastPing" class="v">—</div>
+        </div>
+        <div class="kv">
+          <div class="k" data-i18n="label_avg_ping">Avg ping (last 20)</div>
+          <div id="avgPing" class="v">—</div>
+        </div>
+        <div class="kv">
+          <div class="k" data-i18n="label_jitter">Jitter (last 20)</div>
+          <div id="jitter" class="v">—</div>
+        </div>
+      </div>
+
+      <div class="card graph-card">
+        <h3 data-i18n="latency_graph">Latency Graph (ms)</h3>
+        <div class="graph-wrap" role="img" aria-label="Live latency line graph">
+          <canvas id="graph" width="900" height="320"></canvas>
+        </div>
+        <div class="graph-legend">
+          <span class="legend-dot"></span>
+          <span data-i18n="legend_ping">Ping (ms)</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
